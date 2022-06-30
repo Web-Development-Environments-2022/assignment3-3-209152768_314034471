@@ -1,15 +1,17 @@
 <template>
-  <b-container>
-    <h3>
-      {{ title }}:
-      <slot></slot>
-    </h3>
-    <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
-      </b-col>
-    </b-row>
-  </b-container>
+    <b-container>
+        <h3>
+            {{ title }}:
+        </h3>
+        <b-row>
+            <b-col v-for="r in recipes" :key="r.id">
+                <RecipePreview class="recipePreview" :recipe="r" />
+            </b-col>
+        </b-row>
+        <div @click="updateRecipes">
+            <slot></slot>
+        </div>
+    </b-container>
 </template>
 
 <script>
@@ -21,8 +23,12 @@ export default {
   },
   props: {
     title: {
-      type: String,
-      required: true
+        type: String,
+        required: true
+    },
+    getRecipes: {
+        type: Function,
+        required: true
     }
   },
   data() {
@@ -36,16 +42,9 @@ export default {
   methods: {
     async updateRecipes() {
       try {
-        const response = await this.axios.get(
-          this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-        );
-
-        // console.log(response);
-        const recipes = response.data.recipes;
-        this.recipes = [];
+        const recipes = await this.getRecipes();
         this.recipes.push(...recipes);
-        // console.log(this.recipes);
+        this.recipes = recipes;
       } catch (error) {
         console.log(error);
       }

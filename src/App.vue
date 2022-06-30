@@ -1,20 +1,52 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
-      <router-link :to="{ name: 'search' }">Search</router-link>|
-      {{ !$root.store.username }}
-      <span v-if="!$root.store.username">
-        Guest:
-        <router-link :to="{ name: 'register' }">Register</router-link>|
-        <router-link :to="{ name: 'login' }">Login</router-link>|
-      </span>
-      <span v-else>
-        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
-      </span>
+    <div id="app">
+        <b-navbar toggleable="lg" type="dark" variant="info">
+            <b-navbar-brand>
+                <router-link :to="{ name: 'main' }">Home</router-link>
+            </b-navbar-brand>
+
+            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                    <b-nav-item>
+                        <router-link :to="{ name: 'search' }">Search</router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <router-link :to="{ name: 'about' }">About</router-link>
+                    </b-nav-item>
+                    <b-nav-item-dropdown text="Personal" right>
+                        <b-dropdown-item>Favorites</b-dropdown-item>
+                        <b-dropdown-item>My Recipes</b-dropdown-item>
+                        <b-dropdown-item>Family Recipes</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                </b-navbar-nav>
+
+                <!-- Right aligned nav items -->
+                 <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
+                    Guest:
+                    <b-nav-item>
+                        <router-link :to="{ name: 'register' }">Register</router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <router-link :to="{ name: 'login' }">Login</router-link>
+                    </b-nav-item>
+                </b-navbar-nav>
+                <b-navbar-nav class="ml-auto" v-else>
+                    <b-dropdown-item href="#">Create new Recipe</b-dropdown-item>
+                    <b-nav-item-dropdown right>
+                        <!-- Using 'button-content' slot -->
+                        <template #button-content>
+                            <em>{{ $root.store.username }}</em>
+                        </template>
+                        <b-dropdown-item @click="Logout">Logout</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+
+        <router-view />
     </div>
-    <router-view />
-  </div>
 </template>
 
 <script>

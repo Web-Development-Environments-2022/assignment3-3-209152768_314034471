@@ -4,15 +4,15 @@
     class="recipe-preview"
   >
     <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+      <b-img v-if="image_load" :src="recipe.image" fluid class="recipe-image" />
     </div>
     <div class="recipe-footer">
       <div :title="recipe.title" class="recipe-title">
         {{ recipe.title }}
       </div>
       <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
+        <li>{{ recipe.duration }} minutes</li>
+        <li>{{ recipe.likes }} likes</li>
       </ul>
     </div>
   </router-link>
@@ -44,7 +44,7 @@ export default {
     //   type: String,
     //   required: true
     // },
-    // readyInMinutes: {
+    // duration: {
     //   type: Number,
     //   required: true
     // },
@@ -52,7 +52,7 @@ export default {
     //   type: String,
     //   required: true
     // },
-    // aggregateLikes: {
+    // likes: {
     //   type: Number,
     //   required: false,
     //   default() {
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style scoped>
-.recipe-preview {
+    /*.recipe-preview {
   display: inline-block;
   width: 90%;
   height: 100%;
@@ -137,5 +137,5 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
-}
+}*/
 </style>
