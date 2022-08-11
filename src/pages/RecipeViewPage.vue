@@ -9,16 +9,16 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Ready in {{ recipe.duration }} minutes</div>
+              <div>Likes: {{ recipe.likes }} likes</div>
             </div>
             Ingredients:
             <ul>
               <li
-                v-for="(r, index) in recipe.extendedIngredients"
+                v-for="(r, index) in recipe.ingredients"
                 :key="index + '_' + r.id"
               >
-                {{ r.original }}
+                {{ r.originalName }}
               </li>
             </ul>
           </div>
@@ -54,13 +54,14 @@ export default {
       // response = this.$route.params.response;
 
       try {
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          this.$root.store.server_domain + "/recipes/info",
-          {
-            params: { id: this.$route.params.recipeId }
-          }
-        );
+        response = JSON.parse(localStorage.getItem("getRecipeInfo"));
+        if (!response) {
+          response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/recipes/info",
+            this.$root.store.server_domain + `/recipes/${this.$route.params.recipeId}`,
+          );
+          localStorage.setItem("setRecipeInfo", JSON.stringify(response));
+        }
 
         // console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
@@ -73,13 +74,13 @@ export default {
       let {
         analyzedInstructions,
         instructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
+        ingredients,
+        likes,
+        duration,
         image,
         title
-      } = response.data.recipe;
-
+      } = response.data;
+      
       let _instructions = analyzedInstructions
         .map((fstep) => {
           fstep.steps[0].step = fstep.name + fstep.steps[0].step;
@@ -91,9 +92,9 @@ export default {
         instructions,
         _instructions,
         analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
+        ingredients,
+        likes,
+        duration,
         image,
         title
       };

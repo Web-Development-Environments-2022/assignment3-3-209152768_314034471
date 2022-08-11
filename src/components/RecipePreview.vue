@@ -34,7 +34,15 @@ export default {
     recipe: {
       type: Object,
       required: true
-    }
+    },
+    watched: {
+      type: Boolean,
+      required: true
+    },
+    favorite: {
+      type: Boolean,
+      required: true
+    },
 
     // id: {
     //   type: Number,
@@ -64,7 +72,7 @@ export default {
 </script>
 
 <style scoped>
-    /*.recipe-preview {
+.recipe-preview {
   display: inline-block;
   width: 90%;
   height: 100%;
@@ -137,5 +145,5 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
-}*/
+}
 </style>

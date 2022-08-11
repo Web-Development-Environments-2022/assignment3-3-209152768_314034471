@@ -3,7 +3,11 @@
         <h1 class="title">Main Page</h1>
         <div class="row">
             <div class="col">
-                <RecipePreviewList title="Explore these recipes" class="RandomRecipes center" :getRecipes="getRandomRecipes">
+                <RecipePreviewList title="Explore these recipes" 
+                                    class="RandomRecipes center" 
+                                    :getRecipes="getRandomRecipes" 
+                                    :getWatched="getWatchedRecipes"
+                                    :getFavorites="getFavoriteRecipes">
                     <button>Refresh Recipes</button>
                 </RecipePreviewList>
             </div>
@@ -12,6 +16,8 @@
                 {{ !$root.store.username }}
                 <RecipePreviewList title="Last Viewed Recipes"
                                    :getRecipes="getLastViewedRecipes"
+                                   :getWatched="getWatchedRecipes"
+                                   :getFavorites="getFavoriteRecipes"
                                    :class="{
                                         RandomRecipes: true,
                                         blur: !$root.store.username,
@@ -31,20 +37,40 @@
         },
         methods: {
             getRandomRecipes: async function() {
-                const response = await this.axios.get(
-                    this.$root.store.server_domain + "/recipes/random",
-                    {
-                        params: { num: 3 }
-                    }
-                );
+                let response = JSON.parse(localStorage.getItem("getRandomRecipes"));
+                if (!response) {
+                    response = await this.axios.get(
+                        this.$root.store.server_domain + "/recipes/random",
+                        {
+                            params: { num: 3 }
+                        }
+                    );
+                    localStorage.setItem("getRandomRecipes", JSON.stringify(response));
+                }
 
                 return response.data;
             },
             getLastViewedRecipes: async function () {
-                const response = await this.axios.get(
-                    this.$root.store.server_domain + "/users/watchedList"
-                );
+                let response = JSON.parse(localStorage.getItem("getLastViewedRecipes"));
+                if (!response) {
+                    response = await this.axios.get(
+                        this.$root.store.server_domain + "/users/watchedList"
+                    );
+                    localStorage.setItem("getLastViewedRecipes", JSON.stringify(response));
+                }
 
+                return response.data;
+            },
+            getWatchedRecipes: async function () {
+                const response = await this.axios.get(
+                    this.$root.store.server_domain + "/users/watched"
+                );
+                return response.data;
+            },
+            getFavoriteRecipes: async function () {
+                const response = await this.axios.get(
+                    this.$root.store.server_domain + "/users/favorites"
+                );
                 return response.data;
             }
         }
