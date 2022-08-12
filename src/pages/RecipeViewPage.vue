@@ -51,23 +51,31 @@ export default {
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
 
       try {
         response = JSON.parse(localStorage.getItem("getRecipeInfo"));
-        if (!response) {
+        if (!response || !this.$root.store.bypass_external_requests) {
           response = await this.axios.get(
             // "https://test-for-3-2.herokuapp.com/recipes/info",
             this.$root.store.server_domain + `/recipes/${this.$route.params.recipeId}`,
           );
           localStorage.setItem("setRecipeInfo", JSON.stringify(response));
         }
-
-        // console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
-        console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
+        return;
+      }
+
+      try {
+        response = await this.axios.post(
+          // "https://test-for-3-2.herokuapp.com/recipes/info",
+          this.$root.store.server_domain + "/users/watched",
+          {
+            recipe_id: this.$route.params.recipeId
+          }
+        );
+      } catch (error) {
         return;
       }
 

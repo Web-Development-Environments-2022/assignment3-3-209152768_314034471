@@ -8,10 +8,11 @@
                 <RecipePreview class="recipePreview" 
                               :recipe="r" 
                               :watched="watched.includes(r.id)" 
-                              :favorite="favorites.map(r => r.id).includes(r.id)" />
+                              :favorite="favorites.includes(r.id)"
+                              :addFavorite="addFavorite" />
             </b-col>
         </b-row>
-        <div @click="setRecipes">
+        <div @click="setRecipes" class="slot-container">
             <slot></slot>
         </div>
     </b-container>
@@ -64,24 +65,43 @@ export default {
     },
     async setWatchedRecipes() {
       try {
-        this.watched = await this.getWatched();
+        if (this.$root.store.username) {
+          this.watched = await this.getWatched();
+        }
       } catch (error) {
         console.log(error);
       }
     },
     async setFavoriteRecipes() {
       try {
-        this.favorites = await this.getFavorites();
+        if (this.$root.store.username) {
+          const result = await this.getFavorites();
+          this.favorites = result.map(r => r.id);
+        }
       } catch (error) {
         console.log(error);
       }
+    },
+    async addFavorite(recipeId) {
+      const response = await this.axios.post(
+          this.$root.store.server_domain + "/users/favorites",
+          {
+            recipeId: recipeId
+          }
+      ).then(() => this.favorites.push(recipeId));
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.container {
-  min-height: 400px;
-}
+  .col {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .slot-container {
+    margin-top: 10px;
+    text-align: center;
+  }
 </style>

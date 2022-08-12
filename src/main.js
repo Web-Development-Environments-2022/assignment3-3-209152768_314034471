@@ -25,8 +25,9 @@ import {
   FormSelectPlugin,
   AlertPlugin,
   ToastPlugin,
-    LayoutPlugin,
-    ImagePlugin
+  LayoutPlugin,
+  ImagePlugin,
+  IconsPlugin 
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -38,14 +39,19 @@ import {
   FormSelectPlugin,
   AlertPlugin,
   ToastPlugin,
-    LayoutPlugin,
-    ImagePlugin
+  LayoutPlugin,
+  ImagePlugin,
+  IconsPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
 axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
+    const isInternalRequest = config.url.startsWith(state.server_domain);
+    if (isInternalRequest) {
+      config.withCredentials = true;
+    }
     return config;
   },
   function(error) {

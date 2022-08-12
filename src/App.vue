@@ -15,16 +15,17 @@
                     <b-nav-item>
                         <router-link :to="{ name: 'about' }">About</router-link>
                     </b-nav-item>
-                    <b-nav-item-dropdown text="Personal" right>
+                    <b-nav-item-dropdown text="Personal" right v-if="$root.store.username">
                         <b-dropdown-item>Favorites</b-dropdown-item>
                         <b-dropdown-item>My Recipes</b-dropdown-item>
                         <b-dropdown-item>Family Recipes</b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <b-nav-item v-if="$root.store.username">Create new Recipe</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
                  <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
-                    Guest:
+                    Hello guest:
                     <b-nav-item>
                         <router-link :to="{ name: 'register' }">Register</router-link>
                     </b-nav-item>
@@ -33,7 +34,6 @@
                     </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto" v-else>
-                    <b-dropdown-item href="#">Create new Recipe</b-dropdown-item>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template #button-content>

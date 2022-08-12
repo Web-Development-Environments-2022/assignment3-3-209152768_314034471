@@ -21,7 +21,69 @@
           Username length should be between 3-8 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-          Username alpha
+          Username should include only alphabet characters
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-firstName"
+        label-cols-sm="3"
+        label="First Name:"
+        label-for="firstName"
+      >
+        <b-form-input
+          id="firstName"
+          v-model="$v.form.firstName.$model"
+          type="text"
+          :state="validateState('firstName')"
+        ></b-form-input>
+
+        <b-form-invalid-feedback v-if="!$v.form.firstName.required">
+          First Name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.firstName.alpha">
+          First Name should include only alphabet characters
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-lastName"
+        label-cols-sm="3"
+        label="Last Name:"
+        label-for="lastName"
+      >
+        <b-form-input
+          id="lastName"
+          v-model="$v.form.lastName.$model"
+          type="text"
+          :state="validateState('lastName')"
+        ></b-form-input>
+
+        <b-form-invalid-feedback v-if="!$v.form.lastName.required">
+          Last Name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.lastName.alpha">
+          Last Name should include only alphabet characters
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-email"
+        label-cols-sm="3"
+        label="Email:"
+        label-for="email"
+      >
+        <b-form-input
+          id="email"
+          v-model="$v.form.email.$model"
+          type="email"
+          :state="validateState('email')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.email.required">
+          Email is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.email.email">
+          Email is not valid
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -120,7 +182,6 @@
 </template>
 
 <script>
-import countries from "../assets/countries";
 import {
   required,
   minLength,
@@ -156,6 +217,18 @@ export default {
         length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
+      firstName: {
+        required,
+        alpha
+      },
+      lastName: {
+        required,
+        alpha
+      },
+      email: {
+        required,
+        email
+      },
       country: {
         required
       },
@@ -170,9 +243,8 @@ export default {
     }
   },
   mounted() {
-    // console.log("mounted");
-    this.countries.push(...countries);
-    // console.log($v);
+    this.setCountries();
+    console.log("$v.form", this.$v.form);
   },
   methods: {
     validateState(param) {
@@ -184,14 +256,17 @@ export default {
         const response = await this.axios.post(
           // "https://test-for-3-2.herokuapp.com/user/Register",
           this.$root.store.server_domain + "/Register",
-
           {
+            firstname: this.form.firstName,
+            lastname: this.form.lastName,
+            email: this.form.email,
             username: this.form.username,
-            password: this.form.password
+            password: this.form.password,
+            confirmation_password: this.form.confirmedPassword,
+            country: this.form.country
           }
         );
         this.$router.push("/login");
-        // console.log(response);
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -219,6 +294,11 @@ export default {
       this.$nextTick(() => {
         this.$v.$reset();
       });
+    },
+    async setCountries() {
+      const response = await this.axios.get("https://restcountries.com/v3.1/all");
+      const countries = response.data.map(c => c.name.common).sort();
+      this.countries.push(...countries);
     }
   }
 };

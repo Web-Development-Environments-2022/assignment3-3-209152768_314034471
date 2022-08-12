@@ -1,29 +1,26 @@
 <template>
     <div class="container">
-        <h1 class="title">Main Page</h1>
+        <h1 class="title">Welcome</h1>
         <div class="row">
             <div class="col">
                 <RecipePreviewList title="Explore these recipes" 
                                     class="RandomRecipes center" 
                                     :getRecipes="getRandomRecipes" 
                                     :getWatched="getWatchedRecipes"
-                                    :getFavorites="getFavoriteRecipes">
-                    <button>Refresh Recipes</button>
+                                    :getFavorites="getFavoriteRecipes"
+                                    >
+                    <b-button>Refresh Recipes</b-button>
                 </RecipePreviewList>
             </div>
             <div class="col">
-                <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
-                {{ !$root.store.username }}
-                <RecipePreviewList title="Last Viewed Recipes"
+                <RecipePreviewList v-if="$root.store.username"
+                                   title="Last Viewed Recipes"
                                    :getRecipes="getLastViewedRecipes"
                                    :getWatched="getWatchedRecipes"
                                    :getFavorites="getFavoriteRecipes"
-                                   :class="{
-                                        RandomRecipes: true,
-                                        blur: !$root.store.username,
-                                        center: true
-                                   }"
+                                   class="RandomRecipes center" 
                                    disabled></RecipePreviewList>
+                <Login v-else></Login>            
             </div>        
         </div>
     </div>
@@ -31,14 +28,17 @@
 
 <script>
     import RecipePreviewList from "../components/RecipePreviewList";
+    import Login from "./LoginPage.vue";
+    
     export default {
         components: {
-            RecipePreviewList
+            RecipePreviewList,
+            Login
         },
         methods: {
             getRandomRecipes: async function() {
                 let response = JSON.parse(localStorage.getItem("getRandomRecipes"));
-                if (!response) {
+                if (!response || !this.$root.store.bypass_external_requests) {
                     response = await this.axios.get(
                         this.$root.store.server_domain + "/recipes/random",
                         {
@@ -52,7 +52,7 @@
             },
             getLastViewedRecipes: async function () {
                 let response = JSON.parse(localStorage.getItem("getLastViewedRecipes"));
-                if (!response) {
+                if (!response || !this.$root.store.bypass_external_requests) {
                     response = await this.axios.get(
                         this.$root.store.server_domain + "/users/watchedList"
                     );
