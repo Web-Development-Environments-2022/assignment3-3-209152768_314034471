@@ -15,6 +15,7 @@
         <div @click="setRecipes" class="slot-container">
             <slot></slot>
         </div>
+
     </b-container>
 </template>
 
@@ -41,7 +42,15 @@ export default {
     getFavorites: {
         type: Function,
         required: true
-    }
+    },
+    getFamilyRecipe:{
+      type: Function,
+      required: true
+    },
+    getPersonalRecipes:{
+      type: Function,
+      required: true
+    },
   },
   data() {
     return {
@@ -50,12 +59,39 @@ export default {
       favorites: []
     };
   },
+  created(){
+    console.log("created")
+    console.log(this.loading)
+    this.updateRecipes();
+   },
   mounted() {
     this.setWatchedRecipes();
     this.setFavoriteRecipes();
     this.setRecipes();
+    this.setPersonalRecipes();
+    this.setfamilyRecipes();
   },
   methods: {
+    async updateRecipes() {
+      this.no_results = false;
+      this.loading = true;
+      try {
+        if (this.title == "Search results") {
+          //await this.searchRecipes();
+        } else if (this.title == "Favorite Recipes") {
+          await this.setFavoriteRecipes();
+        } else if (this.title == "Personal Recipes") {
+          await this.setPersonalRecipes();
+        } else if (this.title == "Family Recipes") {
+          await this.setfamilyRecipes();
+        } else if (this.title == "Last Watched Recipes") {
+          await this.setWatchedRecipes();
+        }
+                
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async setRecipes() {
       try {
         this.recipes = await this.getRecipes();
@@ -77,6 +113,32 @@ export default {
         if (this.$root.store.username) {
           const result = await this.getFavorites();
           this.favorites = result.map(r => r.id);
+          console.log(error);
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async setPersonalRecipes() {
+      try {
+        if (this.$root.store.username) {
+          const result = await this.getPersonalRecipes();
+          this.favorites = result.map(r => r.id);
+          console.log(error);
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async setfamilyRecipes() {
+      try {
+        if (this.$root.store.username) {
+          const result = await this.getFamilyRecipes();
+          this.favorites = result.map(r => r.id);
+          console.log(error);
+
         }
       } catch (error) {
         console.log(error);

@@ -16,11 +16,14 @@
                         <router-link :to="{ name: 'about' }">About</router-link>
                     </b-nav-item>
                     <b-nav-item-dropdown text="Personal" right v-if="$root.store.username">
-                        <b-dropdown-item>Favorites</b-dropdown-item>
-                        <b-dropdown-item>My Recipes</b-dropdown-item>
-                        <b-dropdown-item>Family Recipes</b-dropdown-item>
+                      <router-link :to="{ name: 'favorites' }">Favorite Recipes</router-link>|
+                      <router-link :to="{ name: 'personal' }">Personal Recipes</router-link>|
+                      <router-link :to="{ name: 'family' }">Family Recipes</router-link>|
                     </b-nav-item-dropdown>
-                    <b-nav-item v-if="$root.store.username">Create new Recipe</b-nav-item>
+                    <b-nav-item>
+                        <router-link :to="{ name: 'added' }">Create new Recipe</router-link>|
+                    </b-nav-item>                    
+
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->

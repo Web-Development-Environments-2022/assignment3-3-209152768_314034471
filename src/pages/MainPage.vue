@@ -8,6 +8,7 @@
                                     :getRecipes="getRandomRecipes" 
                                     :getWatched="getWatchedRecipes"
                                     :getFavorites="getFavoriteRecipes"
+
                                     >
                     <b-button>Refresh Recipes</b-button>
                 </RecipePreviewList>

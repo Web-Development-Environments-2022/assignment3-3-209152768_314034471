@@ -13,6 +13,27 @@ const routes = [
     component: () => import("./pages/RegisterPage"),
   },
   {
+    path: "/added",
+    name: "added",
+    component: () => import("./pages/AddedRecipes"),
+  },
+  
+  {
+    path: "/favorites",
+    name: "favorites",
+    component: () => import("./pages/FavoriteRecipes"),
+  },
+  {
+    path: "/personal",
+    name: "personal",
+    component: () => import("./pages/PersonalRecipes"),
+  },
+  {
+    path: "/family",
+    name: "family",
+    component: () => import("./pages/FamilyRecipes"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("./pages/LoginPage"),
