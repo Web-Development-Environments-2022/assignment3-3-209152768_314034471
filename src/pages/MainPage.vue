@@ -68,9 +68,11 @@
                 return response.data;
             },
             getFavoriteRecipes: async function () {
-                const response = await this.axios.get(
-                    this.$root.store.server_domain + "/users/favorites"
-                );
+                let response = JSON.parse(localStorage.getItem("getLastViewedRecipes"));
+                if (!response || !this.$root.store.bypass_external_requests) {
+                    response = await this.axios.get(this.$root.store.server_domain + "/users/favorites");
+                    localStorage.setItem("getLastViewedRecipes", JSON.stringify(response));
+                }
                 return response.data;
             }
         }

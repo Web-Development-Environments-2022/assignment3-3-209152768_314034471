@@ -53,6 +53,18 @@ export default {
       let response;
 
       try {
+        response = await this.axios.post(
+          // "https://test-for-3-2.herokuapp.com/recipes/info",
+          this.$root.store.server_domain + "/users/watched",
+          {
+            recipe_id: this.$route.params.recipeId
+          }
+        );
+      } catch (error) {
+        return;
+      }
+
+      try {
         response = JSON.parse(localStorage.getItem("getRecipeInfo"));
         if (!response || !this.$root.store.bypass_external_requests) {
           response = await this.axios.get(
@@ -65,19 +77,7 @@ export default {
       } catch (error) {
         this.$router.replace("/NotFound");
         return;
-      }
-
-      try {
-        response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          this.$root.store.server_domain + "/users/watched",
-          {
-            recipe_id: this.$route.params.recipeId
-          }
-        );
-      } catch (error) {
-        return;
-      }
+      }    
 
       let {
         analyzedInstructions,
@@ -88,7 +88,9 @@ export default {
         image,
         title
       } = response.data;
-      
+
+      console.log("response", response)
+      console.log("analyzedInstructions", analyzedInstructions);
       let _instructions = analyzedInstructions
         .map((fstep) => {
           fstep.steps[0].step = fstep.name + fstep.steps[0].step;
