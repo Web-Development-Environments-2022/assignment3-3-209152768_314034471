@@ -18,6 +18,12 @@
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
 export default {
+  data(){
+    RecipePreviewList
+    return{
+      setfamilyRecipes
+    }
+  },
   components: {
     RecipePreviewList
   },

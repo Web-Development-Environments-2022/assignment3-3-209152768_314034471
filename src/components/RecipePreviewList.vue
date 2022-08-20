@@ -77,16 +77,14 @@ export default {
       this.loading = true;
       try {
         if (this.title == "Search results") {
-          //await this.searchRecipes();
+          await this.searchRecipes();
         } else if (this.title == "Favorite Recipes") {
           await this.setFavoriteRecipes();
         } else if (this.title == "Personal Recipes") {
           await this.setPersonalRecipes();
         } else if (this.title == "Family Recipes") {
           await this.setfamilyRecipes();
-        } else if (this.title == "Last Watched Recipes") {
-          await this.setWatchedRecipes();
-        }
+        } 
                 
       } catch (error) {
         console.log(error);

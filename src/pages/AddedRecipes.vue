@@ -35,7 +35,7 @@
           </b-col>
         </b-row>
         <b-col cols="4">
-          <b-form-group id="input-group-readyInMinutes" label-cols-sm="6" label="Ready In Minutes:" label-for="readyInMinutes" >
+          <b-form-group id="input-group-readyInMinutes" label-cols-sm="5" label="Ready In Minutes:" label-for="readyInMinutes" >
             <b-form-input id="readyInMinutes" v-model="form.readyInMinutes" type="number" ></b-form-input>
           </b-form-group>
         </b-col>
@@ -139,9 +139,8 @@ export default {
         try{
           const response = await this.axios.post(this.$root.store.server_domain +"/users/added",this.form);
           this.$router.push("/personal");
-
           if (response.status !== 201){
-            throw "error!";
+            throw "you have a problem";
           }
           else{
             this.msg = "Recipe saved successfully!!"
@@ -207,16 +206,13 @@ export default {
   filter: blur(2px);
 }
 ::v-deep .blur .recipe-preview {
-  pointer-events: none;
   cursor: default;
 }
 #div-added{
     background-color: #469bcf;
 	  text-align: center;  
-    margin-top:5%;
 }
 .btn-secondary{
   background-color: #587dc1;
-  margin-top:2%;
 }
 </style>
