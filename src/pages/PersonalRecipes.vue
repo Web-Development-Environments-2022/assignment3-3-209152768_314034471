@@ -23,13 +23,17 @@ export default {
   },
   methods: {
     getUserRecipe: async function () {
-      let response;
-      console.log(this.$root.store.server_domain + "/users/personal");
-      response = await this.axios.get(this.$root.store.server_domain + "/users/personal", {
-      });
+      try{
+        const response = await this.axios.get(
+        this.$root.store.base_url + "/user/personal"
+      );
       console.log(response);
-      this.response.data = [];  
-      this.response.data.push(...response.data);
+      const recipesResponse = response.data;
+      this.recipes = [];
+      this.recipes.push(...recipesResponse);
+    } catch (error) {
+      console.log(error);
+      }
     }
   }
 

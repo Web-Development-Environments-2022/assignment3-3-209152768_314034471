@@ -21,8 +21,8 @@ export default {
     getFavoriteRecipes: async function () {
 
       let response;
-      console.log(this.$root.store.server_domain + "/users/favorites");
-      response = await this.axios.get(this.$root.store.server_domain + "/users/favorites", {
+      console.log(this.$root.store.server_domain + "/user/favorites");
+      response = await this.axios.get(this.$root.store.server_domain + "/user/favorites", {
       });
       console.log(response);
       this.response.data = [];  

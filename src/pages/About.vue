@@ -1,20 +1,45 @@
+
 <template>
-  <div class="container">
-    <h1>Meet our team</h1>
-    <div class="team-member">
-      <h2>Tommy Goldenberg</h2>
-      <img src="../assets/steph.jpg" />
-      <p>Tommy is a nice guy, struggling to finish his degree</p>
+    <div class="container">
+      <br /><br />
+      <h1><b>About</b></h1>
+      <br />
+      <p>
+        This site was created by <b>Tommy Goldenberg</b> And
+        <b>Neta Barel</b>.
+      </p>
+      <p>
+        We are students of Software and Information Systems Engineering
+        in Ben-Gurion University of the Negev.
+      </p>
+      This site is the last project we worked on. It consists of client and
+      server side.
+      <p>
+        The client can receive recipes randomaly, and look for specific recipes.
+      </p>
+
+      <p>Our previous projects:</p>
+      <p>
+        <a
+          href="https://github.com/Web-Development-Environments-2021/Assignment2_209495878_209152768/"
+          >Pacman Game
+        </a>
+      </p>
+      <p>
+        <a href="https://github.com/Web-Development-Environments-2021/209152768"
+          >Neta's personal site
+        </a>
+      </p>
+      <p>
+        <a href=""
+          >Toomy's site
+        </a>
+      </p>
     </div>
-    <div class="team-member">
-      <h2>Tommy Goldenberg</h2>
-      <img src="../assets/steph.jpg" />
-      <p>Tommy is a nice guy, struggling to finish his degree</p>
-    </div>
-  </div>
 </template>
 
-
+<script>
+</script>
 <style lang="scss" scoped>
   .team-member {
     display: inline-block;
