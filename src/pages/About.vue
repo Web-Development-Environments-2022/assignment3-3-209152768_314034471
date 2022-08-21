@@ -31,9 +31,7 @@
         </a>
       </p>
       <p>
-        <a href=""
-          >Toomy's site
-        </a>
+        <a href="https://web-development-environments-2022.github.io/314034471/">Tommy's personal site</a>
       </p>
     </div>
 </template>
