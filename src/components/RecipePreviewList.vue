@@ -72,24 +72,7 @@ export default {
     this.setfamilyRecipes();
   },
   methods: {
-    async updateRecipes() {
-      this.no_results = false;
-      this.loading = true;
-      try {
-        if (this.title == "Search results") {
-          await this.searchRecipes();
-        } else if (this.title == "Favorite Recipes") {
-          await this.setFavoriteRecipes();
-        } else if (this.title == "Personal Recipes") {
-          await this.setPersonalRecipes();
-        } else if (this.title == "Family Recipes") {
-          await this.setfamilyRecipes();
-        } 
-                
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    
     async setRecipes() {
       try {
         this.recipes = await this.getRecipes();
@@ -108,47 +91,39 @@ export default {
     },
     async setFavoriteRecipes() {
       try {
-        if (this.$root.store.username) {
-          const result = await this.getFavorites();
-          this.favorites = result.map(r => r.id);
-          console.log(error);
-
+        const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/favorites",);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
         }
-      } catch (error) {
+      catch (error) {
         console.log(error);
       }
     },
     async setPersonalRecipes() {
       try {
-        if (this.$root.store.username) {
-          const result = await this.getPersonalRecipes();
-          this.favorites = result.map(r => r.id);
-          console.log(error);
-
+        const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/personal",);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
         }
-      } catch (error) {
+      catch (error) {
         console.log(error);
       }
     },
     async setfamilyRecipes() {
-      try {
-        if (this.$root.store.username) {
-          const result = await this.getFamilyRecipes();
-          this.favorites = result.map(r => r.id);
-          console.log(error);
-
+     try {
+        const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/family",);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
         }
-      } catch (error) {
+      catch (error) {
         console.log(error);
       }
-    },
-    async addFavorite(recipeId) {
-      const response = await this.axios.post(
-          this.$root.store.server_domain + "/users/favorites",
-          {
-            recipeId: recipeId
-          }
-      ).then(() => this.favorites.push(recipeId));
     }
   }
 };

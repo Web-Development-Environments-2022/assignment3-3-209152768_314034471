@@ -4,7 +4,7 @@
   </div>
   <h1> </h1>
   <b-container class="container">
-    <b-modal id="modal-id" title="Create New Recipe" size="l" ok-only>
+    <b-modal id="modal-id" title="" size="l" ok-only>
       <b-form @submit="onSave">
         <b-row>
           <b-col>
@@ -208,7 +208,7 @@ export default {
 ::v-deep .blur .recipe-preview {
   cursor: default;
 }
-#div-added{
+#div-add{
     background-color: #469bcf;
 	  text-align: center;  
 }

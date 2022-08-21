@@ -21,7 +21,7 @@
                       <router-link :to="{ name: 'family' }">Family Recipes</router-link>|
                     </b-nav-item-dropdown>
                     <b-nav-item>
-                        <router-link :to="{ name: 'added' }">Create new Recipe</router-link>|
+                        <router-link :to="{ name: 'addRecipe' }">Create new Recipe</router-link>|
                     </b-nav-item>                    
 
                 </b-navbar-nav>

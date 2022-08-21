@@ -32,6 +32,7 @@
 
 <script>
 export default {
+  name: "RecipePreview",
   mounted() {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
@@ -59,30 +60,6 @@ export default {
       type: Function,
       required: true
     }
-
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // duration: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // likes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
   }
 };
 </script>

@@ -1,49 +1,26 @@
-
 <template>
-  <div class="container">
-    <p></p>
-    <h1 class="Favorites">Favorite Recipes</h1>
-    <RecipePreviewList title="Your favorite recipes"
-            class="RandomRecipes"
-            :getFavorites="getFavoriteRecipes"
-            ></RecipePreviewList>        
-
-</div>
+  <div class="container" id="mainPage">
+    <div class="column" id="left">
+      <h1 class="title">My favorite recipe</h1>
+      <RecipePreviewList title="favorite Recipes" class="PersonalRecipes center" />
+    </div>
+  </div>
 </template>
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
 export default {
+  name: "favorite",
   components: {
     RecipePreviewList
   },
-  methods: {
-    getFavoriteRecipes: async function () {
-
-      let response;
-      console.log(this.$root.store.server_domain + "/user/favorites");
-      response = await this.axios.get(this.$root.store.server_domain + "/user/favorites", {
-      });
-      console.log(response);
-      this.response.data = [];  
-      this.response.data.push(...response.data);
+  mounted() {
+    this.setFavoriteRecipes();
+  },
+  methods:
+  {
+    setFavoriteRecipes() {
+     this.$root.$emit("favorite")
     }
   }
-
 };
-</script>
-
-
-<style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
-}
-.blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
-  filter: blur(2px);
-}
-::v-deep .blur .recipe-preview {
-  pointer-events: none;
-  cursor: default;
-}
-</style>

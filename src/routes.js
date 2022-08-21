@@ -13,8 +13,8 @@ const routes = [
     component: () => import("./pages/RegisterPage"),
   },
   {
-    path: "/added",
-    name: "added",
+    path: "/addRecipe",
+    name: "addRecipe",
     component: () => import("./pages/AddedRecipes"),
   },
   
