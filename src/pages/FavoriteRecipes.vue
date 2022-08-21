@@ -2,7 +2,7 @@
   <div class="container" id="mainPage">
     <div class="column" id="left">
       <h1 class="title">My favorite recipe</h1>
-      <RecipePreviewList title="favorite Recipes" class="PersonalRecipes center" />
+      <RecipePreviewList title="favorite Recipes"/>
     </div>
   </div>
 </template>
