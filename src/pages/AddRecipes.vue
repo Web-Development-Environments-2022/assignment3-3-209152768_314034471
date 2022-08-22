@@ -109,11 +109,7 @@
 import RecipePreviewList from "../components/RecipePreviewList";
 import {
   required,
-  minLength,
-  maxLength,
   alpha,
-  sameAs,
-  email
 } from "vuelidate/lib/validators";
 
 export default {
@@ -168,7 +164,7 @@ export default {
         try{
           const response = await this.axios.post(this.$root.store.server_domain +"/users/addRecipe",this.form);
           this.$router.push("/personal");
-          if (response.status !== 201){
+          if (response.status !== 200){
             throw "you have a problem";
           }
           else{
