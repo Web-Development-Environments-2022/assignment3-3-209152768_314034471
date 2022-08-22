@@ -20,7 +20,7 @@
                                    :getWatched="getWatchedRecipes"
                                    :getFavorites="getFavoriteRecipes"
                                    class="RandomRecipes center" 
-                                   disabled></RecipePreviewList>
+                                   ></RecipePreviewList>
                 <Login v-else></Login>            
             </div>        
         </div>
@@ -40,7 +40,9 @@
             getRandomRecipes: async function() {
                 let response = JSON.parse(localStorage.getItem("getRandomRecipes"));
                 if (!response || !this.$root.store.bypass_external_requests) {
+                    console.log("before random recipes");
                     response = await this.axios.get(
+                    
                         this.$root.store.server_domain + "/recipes/random",
                         {
                             params: { num: 3 }
@@ -54,6 +56,8 @@
             getLastViewedRecipes: async function () {
                 let response = JSON.parse(localStorage.getItem("getLastViewedRecipes"));
                 if (!response || !this.$root.store.bypass_external_requests) {
+                    console.log("before last view");
+
                     response = await this.axios.get(
                         this.$root.store.server_domain + "/users/watchedList"
                     );
@@ -69,10 +73,10 @@
                 return response.data;
             },
             getFavoriteRecipes: async function () {
-                let response = JSON.parse(localStorage.getItem("getLastViewedRecipes"));
+                let response = JSON.parse(localStorage.getItem("getFavoriteRecipes"));
                 if (!response || !this.$root.store.bypass_external_requests) {
                     response = await this.axios.get(this.$root.store.server_domain + "/users/favorites");
-                    localStorage.setItem("getLastViewedRecipes", JSON.stringify(response));
+                    localStorage.setItem("getFavoriteRecipes", JSON.stringify(response));
                 }
                 return response.data;
             }

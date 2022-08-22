@@ -3,8 +3,8 @@
         <h3>
             {{ title }}:
         </h3>
-        <b-row>
-            <b-col v-for="r in recipes" :key="r.id">
+        <b-row v-if="recipes.length">
+            <b-col  v-for="r in recipes" :key="r.id">
                 <RecipePreview class="recipePreview" 
                               :recipe="r" 
                               :watched="watched.includes(r.id)" 
@@ -42,15 +42,7 @@ export default {
     getFavorites: {
         type: Function,
         required: true
-    },
-    getFamilyRecipe:{
-      type: Function,
-      required: true
-    },
-    getPersonalRecipes:{
-      type: Function,
-      required: true
-    },
+    }
   },
   data() {
     return {
@@ -59,11 +51,6 @@ export default {
       favorites: []
     };
   },
-  created(){
-    console.log("created")
-    console.log(this.loading)
-    this.updateRecipes();
-   },
   mounted() {
     this.setWatchedRecipes();
     this.setFavoriteRecipes();
@@ -76,6 +63,7 @@ export default {
     async setRecipes() {
       try {
         this.recipes = await this.getRecipes();
+        console.log(this.recipes);
       } catch (error) {
         console.log(error);
       }
@@ -124,7 +112,16 @@ export default {
       catch (error) {
         console.log(error);
       }
+    },
+    async addFavorite(recipeId) {
+      const response = await this.axios.post(
+          this.$root.store.server_domain + "/users/favorites",
+          {
+            recipeId: recipeId
+          }
+      ).then(() => this.favorites.push(recipeId));
     }
+
   }
 };
 </script>

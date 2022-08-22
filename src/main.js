@@ -48,6 +48,7 @@ Vue.use(Vuelidate);
 axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
+    console.log("config url",config.url);
     const isInternalRequest = config.url.startsWith(state.server_domain);
     if (isInternalRequest) {
       config.withCredentials = true;
