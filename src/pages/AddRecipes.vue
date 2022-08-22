@@ -107,6 +107,15 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+import {
+  required,
+  minLength,
+  maxLength,
+  alpha,
+  sameAs,
+  email
+} from "vuelidate/lib/validators";
+
 export default {
   data(){
     RecipePreviewList
@@ -124,6 +133,26 @@ export default {
       },
     }  
   },
+  validations: {
+    form: {
+      title: {
+        required,
+        alpha
+      },
+      readyInMinutes: {
+        required
+      },
+      image: {
+        required
+      },
+      ingredients: {
+        required
+      },
+      instructions: {
+        required
+      }
+    }
+  },
   computed: {
     numberOfIng(){
       return this.form.ingredients.length;
@@ -137,7 +166,7 @@ export default {
       const errors = this.ValidateForm();
       if (errors.length==0){
         try{
-          const response = await this.axios.post(this.$root.store.server_domain +"/users/added",this.form);
+          const response = await this.axios.post(this.$root.store.server_domain +"/users/addRecipe",this.form);
           this.$router.push("/personal");
           if (response.status !== 201){
             throw "you have a problem";
@@ -149,44 +178,6 @@ export default {
         catch(error){
         }
       }
-    },
-    ValidateForm(){
-      let errors = [];
-      if (this.form.title.trim().length===0)
-        errors.push("title");
-      if (this.form.readyInMinutes.trim().length===0)
-        errors.push("ready in minutes");
-      let i = [...this.form.ingredients];
-      let count = 0;
-      if (this.form.ingredients.length!=0){
-        for (let i = 0; i < this.form.ingredients.length; i++){
-          if (this.form.ingredients[i].ingredientName.trim().length===0 &&
-            this.form.ingredients[i].measuringTool.trim().length===0 &&
-            this.form.ingredients[i].amount.trim().length===0){
-              i.splice(i,1); 
-              continue;
-            }
-          count+=1;
-        }
-        this.form.ingredients = i;
-        if (this.form.ingredients.length===0){
-          errors.push("oh! no ingredients were filled"); 
-        }
-      }
-      let count2 = [...this.form.instructions];
-      if (this.form.instructions.length>0){
-        for (let i = 0; i < this.form.instructions.length; i++){
-          if (this.form.instructions[i].trim().length===0){
-            count2.splice(i,1);
-            continue; 
-          }
-        }
-        this.form.instructions = count2;
-        if (this.form.instructions.length===0){
-          errors.push("no instructions were filled"); 
-        }
-      }
-      return errors;
     },
     onAddIngredient(){
       this.form.ingredients.push({ingredientName:"",

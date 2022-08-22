@@ -1,5 +1,5 @@
 export const state = {
-    bypass_external_requests: false,
+    bypass_external_requests: true,
     server_domain: "http://localhost",
     // server_domain: "http://132.72.65.211/",
     username: localStorage.username,
